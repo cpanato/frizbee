@@ -6,7 +6,7 @@ tasks:
     silent: true
     cmds:
       - task -l
-      
+
   test:
     desc: Run tests
     cmds:
@@ -20,7 +20,7 @@ tasks:
   build:
     desc: Build the frizbee binary
     cmds:
-      - go build -ldflags="-X github.com/stacklok/frizbee/pkg/constants.CLIVersion=dev" -o ./bin/ ./...
+      - go build -ldflags="-X github.com/stacklok/frizbee/internal/cli.CLIVersion=local-dev" -o ./bin/ ./...
 
   lint:
     desc: Run linter
