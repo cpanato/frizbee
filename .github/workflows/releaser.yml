@@ -15,7 +15,7 @@
 #
 # This workflow compiles frizbee using a SLSA3 compliant
 # build and then verifies the provenance of the built artifacts.
-# It releases the following architectures: amd64, arm64, and armv7 on Linux, 
+# It releases the following architectures: amd64, arm64, and armv7 on Linux,
 # Windows, and macOS.
 # The provenance file can be verified using https://github.com/slsa-framework/slsa-verifier.
 # For more information about SLSA and how it improves the supply-chain, visit slsa.dev.
@@ -27,16 +27,19 @@ on:
       - '*'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
+
   ldflags_args:
     runs-on: ubuntu-latest
+
     outputs:
       commit-date: ${{ steps.ldflags.outputs.commit-date }}
       commit: ${{ steps.ldflags.outputs.commit }}
       version: ${{ steps.ldflags.outputs.version }}
       tree-state: ${{ steps.ldflags.outputs.tree-state }}
+
     steps:
       - id: checkout
         uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
@@ -48,14 +51,22 @@ jobs:
           echo "commit-date=$(git log --date=iso8601-strict -1 --pretty=%ct)" >> $GITHUB_OUTPUT
           echo "version=$(git describe --tags --always --dirty | cut -c2-)" >> $GITHUB_OUTPUT
           echo "tree-state=$(if git diff --quiet; then echo "clean"; else echo "dirty"; fi)" >> $GITHUB_OUTPUT
+
   release:
     name: Build and release
+
     outputs:
       hashes: ${{ steps.hash.outputs.hashes }}
+
     permissions:
       contents: write # To add assets to a release.
       id-token: write # To do keyless signing with cosign
+
     runs-on: ubuntu-latest
+
+    needs:
+      - ldflags_args
+
     steps:
       - name: Checkout
         uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4
