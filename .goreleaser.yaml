@@ -10,10 +10,10 @@ builds:
       - -trimpath
       - -tags=netgo
     ldflags:
-      - "-X github.com/stacklok/frizbee/internal/cli.Version={{ .Env.VERSION }}"
-      - "-X github.com/stacklok/frizbee/internal/cli.Commit={{ .Env.COMMIT }}"
-      - "-X github.com/stacklok/frizbee/internal/cli.CommitDate={{ .Env.COMMIT_DATE }}"
-      - "-X github.com/stacklok/frizbee/internal/cli.TreeState={{ .Env.TREE_STATE }}"
+      - "-X github.com/stacklok/frizbee/internal/cli.vinfo.Version={{ .Env.VERSION }}"
+      - "-X github.com/stacklok/frizbee/internal/cli.vinfo.Commit={{ .Env.COMMIT }}"
+      - "-X github.com/stacklok/frizbee/internal/cli.vinfo.Time={{ .Env.COMMIT_DATE }}"
+      - "-X github.com/stacklok/frizbee/internal/cli.vinfo.TreeState={{ .Env.TREE_STATE }}"
       - "-X github.com/stacklok/frizbee/internal/cli.CLIVersion=v{{ .Env.VERSION }}"
     goos:
       - linux
