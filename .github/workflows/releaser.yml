@@ -116,12 +116,15 @@ jobs:
 
   provenance:
     name: Generate provenance (SLSA3)
+
     needs:
       - release
+
     permissions:
       actions: read # To read the workflow path.
       id-token: write # To sign the provenance.
       contents: write # To add assets to a release.
+
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.0.0
     with:
       base64-subjects: "${{ needs.release.outputs.hashes }}"
@@ -129,11 +132,14 @@ jobs:
 
   verification:
     name: Verify provenance of assets (SLSA3)
+
     needs:
       - release
       - provenance
+
     runs-on: ubuntu-latest
     permissions: read-all
+
     steps:
       - name: Install the SLSA verifier
         uses: slsa-framework/slsa-verifier/actions/installer@eb7007070baa04976cb9e25a0d8034f8db030a86 # v2.5.1
